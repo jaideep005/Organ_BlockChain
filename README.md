@@ -51,7 +51,7 @@ File Upload → Backend → Pinata → IPFS → CID stored on Blockchain
 ## Project Structure
 
 ```
-organchain/
+Organ_BlockChain/
 │
 ├── frontend/       # React frontend
 ├── backend/        # Spring Boot application
