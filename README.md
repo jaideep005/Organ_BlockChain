@@ -136,7 +136,7 @@ organchain/
 ### Admin Dashboard
 *Platform dashboard for managing donors, patients, pledges, and transplant matching*
  
-![OrganChain Dashboard](Desktop\organchain-main\organchain-main\Version_1_Frontend\src\screenshots\dashboard.png)
+![OrganChain Dashboard](Desktop/organchain-main/organchain-main/Version_1_Frontend/src/screenshots/dashboard.png)
 ---
 ## Key Features
 - Tamper-proof records using blockchain
