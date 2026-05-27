@@ -1,6 +1,6 @@
 # OrganChain
 
-A decentralized healthcare platform for **secure, transparent, and tamper-proof management of organ donation and medical data** — built on blockchain, IPFS, and cloud technologies.
+A decentralized healthcare platform for **secure, transparent, and tamper-proof management of organ donation and medical data** — built using blockchain, IPFS, and cloud technologies.
 
 ---
 
@@ -11,6 +11,7 @@ A decentralized healthcare platform for **secure, transparent, and tamper-proof 
 - [Project Structure](#project-structure)
 - [Tech Stack](#tech-stack)
 - [Detailed Workflow](#detailed-workflow)
+- [Screenshots](#screenshots)
 - [Key Features](#key-features)
 - [Setup Instructions](#setup-instructions)
 - [Deployment](#deployment)
@@ -23,22 +24,29 @@ A decentralized healthcare platform for **secure, transparent, and tamper-proof 
 
 ## Project Description
 
-OrganChain addresses critical challenges in traditional healthcare systems:
+OrganChain addresses major challenges in traditional healthcare systems such as:
 
 - Data tampering
 - Lack of transparency in organ allocation
-- Centralized control of sensitive records
+- Centralized control of sensitive medical records
 
-By integrating Web3 technologies, the system ensures trust, traceability, and decentralization across all medical data interactions.
+By integrating Web3 technologies, the platform ensures:
+
+- Trust
+- Transparency
+- Traceability
+- Decentralization
+
+across all healthcare data interactions.
 
 ---
 
 ## Architecture Overview
 
-### End-to-End Flow
+### End-to-End Workflow
 
-```
-User → Frontend (React - Vercel)
+```text
+User → Frontend (React + Vercel)
      → Backend (Spring Boot REST APIs)
      → Blockchain (Ethereum via Alchemy)
      → Smart Contracts
@@ -50,11 +58,11 @@ File Upload → Backend → Pinata → IPFS → CID stored on Blockchain
 
 ## Project Structure
 
-```
+```text
 Organ_BlockChain/
 │
-├── frontend/       # React frontend
-├── backend/        # Spring Boot application
+├── frontend/       # React frontend application
+├── backend/        # Spring Boot backend services
 ├── contracts/      # Solidity smart contracts
 ├── scripts/        # Deployment scripts
 ├── config/         # Environment configurations
@@ -69,98 +77,125 @@ Organ_BlockChain/
 
 | Technology | Purpose |
 |------------|---------|
-| React.js | Fast UI rendering and seamless Web3 integration |
-| Vercel | Serverless, scalable hosting |
+| React.js | Fast and responsive user interface |
+| Vercel | Scalable frontend hosting |
+
+---
 
 ### Backend
 
 | Technology | Purpose |
 |------------|---------|
-| Spring Boot | Complex business logic, enterprise-grade REST APIs |
+| Spring Boot | REST APIs and backend business logic |
 | Maven | Dependency management and build automation |
+
+---
 
 ### Blockchain
 
 | Technology | Purpose |
 |------------|---------|
-| Ethereum Smart Contracts | Immutable, decentralized data storage |
-| Alchemy API | Managed node access — no self-hosted infrastructure needed |
+| Ethereum Smart Contracts | Immutable decentralized storage |
+| Alchemy API | Blockchain node infrastructure |
+
+---
 
 ### Storage
 
 | Technology | Purpose |
 |------------|---------|
-| IPFS | Decentralized, content-addressed file storage |
+| IPFS | Decentralized file storage |
 | Pinata | Reliable IPFS pinning service |
+
+---
 
 ### Development Tools
 
 | Tool | Purpose |
 |------|---------|
-| Ganache | Local blockchain for faster testing |
-| ngrok | Public tunnel for easy frontend-backend integration |
+| Ganache | Local Ethereum blockchain testing |
+| MetaMask | Wallet integration and transaction signing |
+| ngrok | Public tunnel for local backend exposure |
 
 ---
 
 ## Detailed Workflow
 
 ### 1. User Interaction
-- User accesses the web app
-- Inputs data or uploads medical records
+- User accesses the web application
+- Uploads medical records or enters donor/patient data
 
 ### 2. Backend Processing
-- Validates user data
+- Validates incoming data
+- Handles API communication
 - Prepares blockchain transactions
 
-### 3. File Upload (IPFS)
-- File is sent to Pinata
-- IPFS returns a unique **CID (Content Identifier)**
+### 3. File Upload to IPFS
+- Files are uploaded to Pinata
+- IPFS generates a unique CID (Content Identifier)
 
 ### 4. Blockchain Storage
-- Smart contract stores metadata and the IPFS CID
+- Smart contracts store metadata and IPFS CID references
+- Data becomes immutable and traceable
 
-### 5. Data Retrieval
+### 5. Secure Retrieval
 - CID is fetched from the blockchain
-- File is retrieved securely from IPFS
+- Files are securely retrieved from IPFS
 
 ---
-##  Screenshots
- 
-###  Homepage
+
+## Screenshots
+
+### Homepage
 *Public-facing landing page with organ donation awareness and pledge CTA*
- 
+
 ![OrganChain Homepage](Desktop/organchain-main/organchain-main/Version_1_Frontend/src/screenshots/landing-page.png)
- 
+
 ---
- 
+
 ### Admin Dashboard
-*Platform dashboard for managing donors, patients, pledges, and transplant matching*
- 
+*Dashboard for managing donors, recipients, pledges, and transplant records*
+
 ![OrganChain Dashboard](Desktop/organchain-main/organchain-main/Version_1_Frontend/src/screenshots/dashboard.png)
+
 ---
+
 ## Key Features
-- Tamper-proof records using blockchain
+
+- Tamper-proof medical records using blockchain
 - Decentralized file storage via IPFS
-- Transparent organ tracking system
-- Secure API-based backend
-- Local blockchain testing environment
+- Transparent organ donor tracking system
+- Smart contract-powered verification
+- Secure REST API backend
+- Local blockchain development environment
+- Immutable audit trails for sensitive data
 
 ---
 
 ## Setup Instructions
+
 ### Prerequisites
+
+Install the following before starting:
 
 - Node.js
 - Java (JDK 8+)
 - Maven
 - Ganache
-- MetaMask browser extension
+- MetaMask Browser Extension
+
+---
 
 ### Clone the Repository
+
+By default, cloning this repository creates a local folder named `Organ_BlockChain`.
+
 ```bash
 git clone https://github.com/jaideep005/Organ_BlockChain.git
 cd Organ_BlockChain
 ```
+
+---
 
 ### Backend Setup
 
@@ -170,6 +205,10 @@ mvn clean install
 mvn spring-boot:run
 ```
 
+Backend server will start on the configured port.
+
+---
+
 ### Frontend Setup
 
 ```bash
@@ -178,61 +217,135 @@ npm install
 npm start
 ```
 
+Frontend will run on:
+
+```text
+http://localhost:3000
+```
+
+---
+
 ### Smart Contract Deployment
 
 ```bash
 cd contracts
-# Compile and deploy using Truffle or Hardhat
+
+# Compile contracts
+truffle compile
+
+# Deploy contracts
+truffle migrate
 ```
+
+You may also use Hardhat if preferred.
+
+---
 
 ### Start Ganache
 
-1. Launch Ganache (GUI or CLI)
+1. Launch Ganache GUI or CLI
 2. Copy the RPC URL
-3. Configure the RPC URL in the project's environment settings
+3. Configure the RPC URL in environment variables
+4. Import Ganache accounts into MetaMask
+
 ---
+
+## Environment Variables
+
+Create a `.env` file where required.
+
+Example:
+
+```env
+ALCHEMY_API_KEY=your_api_key
+PINATA_API_KEY=your_pinata_key
+PINATA_SECRET_API_KEY=your_secret_key
+PRIVATE_KEY=your_wallet_private_key
+```
+
+---
+
 ## Deployment
 
-| Component  | Platform             |
-|------------|----------------------|
-| Frontend   | Vercel               |
-| Backend    | Cloud (AWS / Heroku) |
+| Component | Platform |
+|-----------|----------|
+| Frontend | Vercel |
+| Backend | AWS / Heroku / Render |
 | Blockchain | Ethereum via Alchemy |
-| Storage    | IPFS via Pinata      |
+| Storage | IPFS via Pinata |
+
 ---
 
 ## Comparison with Traditional Systems
-| Feature        | Traditional System | OrganChain        |
-|----------------|--------------------|-------------------|
-| Storage        | Centralized DB     | IPFS              |
-| Trust          | Low                | High (Blockchain) |
-| Transparency   | Limited            | Full              |
-| Security       | Moderate           | High              |
+
+| Feature | Traditional System | OrganChain |
+|---------|-------------------|------------|
+| Storage | Centralized Database | IPFS |
+| Transparency | Limited | High |
+| Trust | Institution-based | Blockchain-based |
+| Security | Moderate | High |
+| Auditability | Difficult | Immutable |
+| Data Ownership | Centralized | Decentralized |
 
 ---
 
 ## Limitations
-- Gas fees apply for blockchain transactions
-- Write operations are slower than traditional databases
-- Requires Web3 knowledge for setup and interaction
+
+- Blockchain transactions involve gas fees
+- Slower write speeds compared to traditional databases
+- Requires Web3 familiarity for advanced configuration
+- Smart contract upgrades can be complex
 
 ---
 
 ## Future Scope
-- AI-based organ matching system
-- Real-time dashboards
-- Integration with hospital APIs
-- Multi-chain compatibility
+
+- AI-powered organ matching algorithms
+- Real-time healthcare analytics dashboards
+- Multi-chain blockchain compatibility
+- Integration with hospital management systems
+- Mobile application support
+- Role-based access control enhancements
 
 ---
 
 ## Contributing
+
+Contributions are welcome.
+
+### Steps to Contribute
+
 1. Fork the repository
-2. Create a new branch (`git checkout -b feature/your-feature`)
-3. Commit your changes (`git commit -m 'Add your feature'`)
-4. Push to your branch (`git push origin feature/your-feature`)
+2. Create a feature branch
+
+```bash
+git checkout -b feature/your-feature
+```
+
+3. Commit your changes
+
+```bash
+git commit -m "Add your feature"
+```
+
+4. Push your branch
+
+```bash
+git push origin feature/your-feature
+```
+
 5. Open a Pull Request
 
 ---
 
-> If you find this project useful, consider giving it a ⭐ on GitHub!
+## License
+
+This project is licensed under the `MIT License`.
+
+---
+
+## Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub.
+
+---
