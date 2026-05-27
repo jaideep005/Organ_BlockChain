@@ -1,4 +1,4 @@
-# OrganChain
+# Organ_BlockChain
 
 A decentralized healthcare platform for **secure, transparent, and tamper-proof management of organ donation and medical data** — built using blockchain, IPFS, and cloud technologies.
 
