@@ -18,6 +18,8 @@ services:
     environment:
       - WEB3_RPC_URL=http://ganache:8545
       # Make sure to update production env variables here or via .env
+    volumes:
+      - backend_data:/app/data
     networks:
       - organchain_net
     depends_on:
@@ -47,3 +49,6 @@ services:
 networks:
   organchain_net:
     driver: bridge
+
+volumes:
+  backend_data:
