@@ -7,7 +7,10 @@
     <meta name="description" content="Formally verify your organ donation pledge on the OrganChain national blockchain ledger.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <script>tailwind.config={darkMode:'class'}</script>
+    <script>if(localStorage.getItem('organchain-theme')==='dark'||(!localStorage.getItem('organchain-theme')&&window.matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')</script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="dark-mode.css">
     <style>
         * { font-family: 'Inter', sans-serif; }
         .mono { font-family: 'JetBrains Mono', monospace; }
@@ -74,6 +77,10 @@
                 <li><a href="download-forms.html" class="nav-item" style="display:flex; align-items:center;"><i data-lucide="file-text" class="w-[18px] h-[18px] mr-2"></i><span>Download Forms</span></a></li>
                 <li><a href="profile.html" class="nav-item" style="display:flex; align-items:center;"><i data-lucide="user" class="w-[18px] h-[18px] mr-2"></i><span>Profile</span></a></li>
             </ul>
+            <button onclick="organChainTheme.toggle()" class="text-slate-400 hover:text-emerald-500 transition-colors p-2 rounded-lg hover:bg-slate-800/50 shrink-0" title="Toggle theme">
+                <svg class="dark:hidden w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+                <svg class="hidden dark:block w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+            </button>
             <div class="h-6 w-px bg-slate-700 hidden md:block"></div>
             <button onclick="sessionStorage.clear(); window.location.href='index.html';" class="text-xs font-bold text-slate-400 hover:text-emerald-500 transition-colors flex items-center gap-1.5 border border-slate-700 hover:border-emerald-500/50 px-3 py-1.5 rounded-lg shrink-0">
                 <i data-lucide="log-out" class="w-[18px] h-[18px]"></i>
@@ -237,11 +244,11 @@
                 </div>
 
                 <div class="flex gap-3 justify-center mb-6 hidden" id="mlScanDiv">
-                    <button onclick="scanAndMaskPII()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow transition-all active:scale-95 flex items-center gap-2">
+                    <button id="scanBtn" onclick="scanAndMaskPII()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow transition-all active:scale-95 flex items-center gap-2">
                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                         Scan & Mask PII via AI System
                     </button>
-                    <button onclick="commitToIpfs()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow transition-all active:scale-95 flex items-center gap-2">
+                    <button id="ipfsBtn" onclick="commitToIpfs()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow transition-all active:scale-95 flex items-center gap-2">
                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
                         Upload to IPFS Database
                     </button>
@@ -572,6 +579,11 @@
 
     async function scanAndMaskPII() {
         if(!window.selectedFile) return;
+        const btn = document.getElementById('scanBtn');
+        const originalText = btn.innerHTML;
+
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Processing...';
         document.getElementById('uploadedFileName').innerHTML = 'Analyzing document via AI... <span class="animate-pulse">██████</span>';
         try {
             const formData = new FormData();
@@ -609,11 +621,19 @@
                 alert('AI Scan Failed');
                 document.getElementById('uploadedFileName').textContent = window.selectedFile.name;
             }
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
         }
     }
 
     async function commitToIpfs() {
         if(!window.selectedFile) return;
+        const btn = document.getElementById('ipfsBtn');
+        const originalText = btn.innerHTML;
+
+        btn.disabled = true;
+        btn.innerHTML = '⏳ Uploading...';
         document.getElementById('uploadedFileName').textContent = 'Uploading encrypted file to IPFS...';
         try {
             // Generate SHA-256 hash client-side
@@ -653,6 +673,9 @@
         } catch(e) {
             alert('IPFS upload error: ' + e.message);
             document.getElementById('uploadedFileName').textContent = window.selectedFile.name;
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
         }
     }
 
@@ -1059,6 +1082,7 @@
     }
 </script>
 
+    <script src="theme.js"></script>
     <script>lucide.createIcons();</script>
 </body>
 </html>

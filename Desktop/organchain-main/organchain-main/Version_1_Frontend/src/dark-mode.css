@@ -1,0 +1,295 @@
+/* ═══════════════════════════════════════════
+   dark-mode.css — OrganChain Dark Theme
+   ═══════════════════════════════════════════ */
+
+/* ── Base ── */
+.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+}
+
+/* ── Page Backgrounds ── */
+.dark .bg-slate-50,
+.dark .bg-slate-50\/50 {
+  background: #0f172a !important;
+}
+
+.dark .bg-white {
+  background: #1e293b !important;
+}
+
+.dark .bg-slate-100,
+.dark .bg-slate-100\/50 {
+  background: #1e293b !important;
+}
+
+.dark .bg-slate-200 {
+  background: #334155 !important;
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+  background: #1e293b !important;
+}
+
+.dark .bg-amber-50 {
+  background: #451a03 !important;
+}
+
+.dark .bg-emerald-50 {
+  background: #022c22 !important;
+}
+
+.dark .bg-emerald-50\/50 {
+  background: #022c22 !important;
+}
+
+.dark .bg-blue-50 {
+  background: #172554 !important;
+}
+
+.dark .bg-blue-50\/50 {
+  background: #172554 !important;
+}
+
+.dark .bg-purple-50 {
+  background: #1e1b4b !important;
+}
+
+.dark .bg-purple-50\/50 {
+  background: #1e1b4b !important;
+}
+
+.dark .bg-rose-50 {
+  background: #2d0a0e !important;
+}
+
+.dark .bg-indigo-50 {
+  background: #1e1b4b !important;
+}
+
+.dark .bg-red-50 {
+  background: #2d0a0e !important;
+}
+
+/* ── Card / Surface Backgrounds ── */
+.dark .bg-slate-900 {
+  background: #0f172a !important;
+}
+
+.dark .bg-slate-950 {
+  background: #020617 !important;
+}
+
+.dark .bg-slate-800 {
+  background: #1e293b !important;
+}
+
+/* ── Text Colors ── */
+.dark .text-slate-900 { color: #f1f5f9 !important; }
+.dark .text-slate-950 { color: #f1f5f9 !important; }
+.dark .text-slate-800 { color: #e2e8f0 !important; }
+.dark .text-slate-700 { color: #cbd5e1 !important; }
+.dark .text-slate-600 { color: #94a3b8 !important; }
+.dark .text-slate-500 { color: #64748b !important; }
+.dark .text-slate-400 { color: #94a3b8 !important; }
+.dark .text-slate-300 { color: #cbd5e1 !important; }
+.dark .text-gray-600 { color: #94a3b8 !important; }
+.dark .text-gray-500 { color: #64748b !important; }
+.dark .text-gray-700 { color: #cbd5e1 !important; }
+.dark .text-gray-900 { color: #f1f5f9 !important; }
+
+.dark .text-amber-900 { color: #fcd34d !important; }
+.dark .text-amber-700 { color: #fbbf24 !important; }
+.dark .text-amber-600 { color: #f59e0b !important; }
+.dark .text-emerald-600 { color: #34d399 !important; }
+.dark .text-emerald-700 { color: #10b981 !important; }
+
+.dark .text-rose-700 { color: #fda4af !important; }
+.dark .text-red-600 { color: #f87171 !important; }
+.dark .text-red-900 { color: #fca5a5 !important; }
+
+/* ── Border Colors ── */
+.dark .border-slate-200 { border-color: #334155 !important; }
+.dark .border-slate-100 { border-color: #1e293b !important; }
+.dark .border-slate-50 { border-color: #1e293b !important; }
+.dark .border-slate-200\/50 { border-color: rgba(51, 65, 85, 0.5) !important; }
+.dark .border-gray-200 { border-color: #334155 !important; }
+.dark .border-gray-100 { border-color: #1e293b !important; }
+.dark .border-amber-200 { border-color: #78350f !important; }
+.dark .border-red-200 { border-color: #7f1d1d !important; }
+.dark .border-slate-800 { border-color: #0f172a !important; }
+.dark .border-slate-700 { border-color: #334155 !important; }
+
+.dark .divide-slate-100 > * + *,
+.dark .divide-slate-200 > * + * {
+  border-color: #1e293b !important;
+}
+
+/* ── Placeholder Styling ── */
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+.dark input,
+.dark textarea,
+.dark select {
+  background: #334155 !important;
+  color: #e2e8f0 !important;
+  border-color: #475569 !important;
+}
+
+/* ── Shadows ── */
+.dark .shadow-sm,
+.dark .shadow,
+.dark .shadow-md,
+.dark .shadow-lg,
+.dark .shadow-xl {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ── Steps (pledge-verification) ── */
+.dark .step-item:hover { background: #1e293b !important; }
+.dark .step-item.active { background: rgba(16, 185, 129, 0.15) !important; }
+.dark .step-item .step-num { background: #475569 !important; color: #94a3b8 !important; }
+.dark .step-item.active .step-num { background: #10b981 !important; color: white !important; }
+.dark .step-item.done .step-num { background: rgba(16, 185, 129, 0.2) !important; color: #34d399 !important; }
+.dark .step-item.active .step-label { color: #34d399 !important; }
+.dark .step-item.done .step-label { color: #10b981 !important; }
+
+/* ── Drop zone (pledge-verification) ── */
+.dark #dropZone { background: #1e293b !important; }
+.dark #dropZone:hover,
+.dark #dropZone.dragging { background: rgba(16, 185, 129, 0.1) !important; }
+
+/* ── Organ checkboxes (pledge-verification) ── */
+.dark .organ-label { background: #334155 !important; border-color: #475569 !important; color: #cbd5e1 !important; }
+.dark .organ-check:checked + .organ-label { border-color: #10b981 !important; background: rgba(16, 185, 129, 0.1) !important; color: #34d399 !important; }
+.dark .organ-check-icon { border-color: #64748b !important; }
+
+/* ── Leaflet map container (hospitals) ── */
+.dark .leaflet-container { background: #1e293b !important; }
+.dark .leaflet-popup-content-wrapper { background: #1e293b !important; color: #e2e8f0 !important; }
+.dark .leaflet-popup-tip { background: #1e293b !important; }
+
+/* ── Input groups ── */
+.dark .input-group-text,
+.dark .input-group-append,
+.dark .input-group-prepend {
+  background: #334155 !important;
+  border-color: #475569 !important;
+  color: #94a3b8 !important;
+}
+
+/* ── Security modal (dashboard) ── */
+.dark #securityModal .bg-white { background: #1e293b !important; border-color: #7f1d1d !important; }
+.dark #securityModal .bg-red-50 { background: #2d0a0e !important; }
+
+/* ── JSON / code blocks (audit-ledger) ── */
+.dark code,
+.dark pre {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+  border-color: #334155 !important;
+}
+
+/* ── Custom Classes ── */
+
+/* .nav-item & nav links (from inline style blocks) */
+.dark .nav-item,
+.dark header .nav-item,
+.dark .sidebar-link {
+  color: #64748b !important;
+}
+.dark .nav-item:hover,
+.dark header .nav-item:hover {
+  color: #10b981 !important;
+}
+.dark .sidebar-link:hover {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+.dark .sidebar-link.active {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #34d399 !important;
+}
+
+/* doc-card (awareness) */
+.dark .doc-card {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+.dark .doc-card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* faq-accordion (faqs) */
+.dark .faq-accordion {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+.dark .faq-accordion:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* static-card (about) */
+.dark .static-card {
+  border-color: #334155 !important;
+}
+
+/* accordion items */
+.dark .accordion-item {
+  border-color: #334155 !important;
+}
+
+/* Scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: #0f172a !important;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155 !important;
+}
+
+/* Modal / overlay */
+.dark .modal-content,
+.dark [class*="bg-white"]:is(.rounded-2xl, .rounded-3xl) {
+  background: #1e293b !important;
+}
+
+/* Table styles */
+.dark table,
+.dark .table-auto,
+.dark table.w-full {
+  color: #e2e8f0 !important;
+}
+
+.dark th,
+.dark td {
+  border-color: #334155 !important;
+}
+
+/* Link adjustments */
+.dark a:not([class*="bg-"]) {
+  color: #94a3b8 !important;
+}
+.dark a:not([class*="bg-"]):hover {
+  color: #10b981 !important;
+}
+.dark a.text-white {
+  color: #f1f5f9 !important;
+}
+
+/* hr */
+.dark hr {
+  border-color: #334155 !important;
+}
+
+/* Selection colors */
+.dark ::selection {
+  background: rgba(16, 185, 129, 0.3) !important;
+}

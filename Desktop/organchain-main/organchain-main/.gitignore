@@ -9,6 +9,10 @@ target/
 __pycache__/
 *.class
 .flattened-pom.xml
+<<<<<<< fix/persistent-h2-database
 backend/data/
 data/
 
+=======
+.env
+>>>>>>> main

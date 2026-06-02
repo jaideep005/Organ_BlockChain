@@ -3,6 +3,7 @@ package com.transplantchain.service;
 import com.transplantchain.contract.OrganChain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.EthBlock;
@@ -21,20 +22,23 @@ public class BlockchainService {
 
     private OrganChain organChainContract;
 
-    private static final String PRIVATE_KEY = "0xba4551eaab1881c5fa5bac705e134ebe57c82a23febc2a74a6e2ab9c2c406895";
-    private static final String CONTRACT_ADDRESS = "0x4579a2452e6ff61841c501F42f0D98237d4b6134";
+    @Value("${web3.private-key}")
+    private String privateKey;
+
+    @Value("${web3.contract-address}")
+    private String contractAddress;
 
     @PostConstruct
     public void init() {
         try {
-            Credentials credentials = Credentials.create(PRIVATE_KEY);
+            Credentials credentials = Credentials.create(privateKey);
             organChainContract = OrganChain.load(
-                    CONTRACT_ADDRESS,
+                    contractAddress,
                     web3j,
                     credentials,
                     new DefaultGasProvider()
             );
-            System.out.println("Blockchain Service initialized with contract: " + CONTRACT_ADDRESS);
+            System.out.println("Blockchain Service initialized with contract: " + contractAddress);
         } catch (Exception e) {
             System.err.println("Blockchain Service init failed (Ganache may be offline): " + e.getMessage());
         }

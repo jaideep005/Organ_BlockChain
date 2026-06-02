@@ -6,7 +6,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>tailwind.config={darkMode:'class'}</script>
+    <script>if(localStorage.getItem('organchain-theme')==='dark'||(!localStorage.getItem('organchain-theme')&&window.matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')</script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="dark-mode.css">
     <title>Match Archive — OrganChain Admin</title>
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -36,6 +39,10 @@
                 <li><a href="match-archive.html" class="nav-item nav-active">Match Archive</a></li>
                 <li><a href="security-logs.html" class="nav-item">Security Logs</a></li>
             </ul>
+            <button onclick="organChainTheme.toggle()" class="text-slate-400 hover:text-emerald-500 transition-colors p-2 rounded-lg hover:bg-slate-800/50 shrink-0" title="Toggle theme">
+                <svg class="dark:hidden w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+                <svg class="hidden dark:block w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+            </button>
             <div class="h-6 w-px bg-slate-700 hidden md:block"></div>
             <button onclick="sessionStorage.clear(); window.location.href='index.html';" class="text-xs font-bold text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1.5 border border-slate-700 hover:border-red-500/50 px-3 py-1.5 rounded-lg">
                 <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
@@ -377,5 +384,6 @@
     loadHospitals();
     loadMatches();
 </script>
+    <script src="theme.js"></script>
 </body>
 </html>
