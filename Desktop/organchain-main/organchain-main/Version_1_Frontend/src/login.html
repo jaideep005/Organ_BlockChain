@@ -60,14 +60,22 @@
     </header>
 
     <!-- ── Main Content ── -->
-    <main class="flex-1 w-full flex items-center justify-center p-4 sm:p-6 relative z-10">
+    <main class="flex-1 w-full flex justify-center p-4 sm:p-6 relative z-10 overflow-y-auto">
         
         <!-- Portal Card -->
-        <div class="w-full max-w-md bg-white rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] border border-slate-200/50 overflow-hidden relative backdrop-blur-3xl mx-auto portal-animate">
+        <div class="portal-card w-full max-w-md max-h-[92vh] bg-white rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] border border-slate-200/50 overflow-y-auto relative backdrop-blur-3xl mx-auto portal-animate">
+            <style>
+@media (max-height: 800px) {
+    .portal-card {
+        max-height: 92vh;
+        overflow-y: auto;
+    }
+}
+</style>
             <!-- Top Color Bar -->
             <div class="h-1.5 w-full bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-600"></div>
 
-            <div class="p-6 sm:p-8">
+            <div class="p-5 sm:p-6">
                 <div class="text-center mb-6">
                     <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">Login</h1>
                     <p class="text-slate-500 text-[13px] font-medium">Select your authorized clearance level</p>
@@ -91,12 +99,12 @@
                 </div>
 
                 <!-- Form Container -->
-                <div class="relative w-full min-h-[280px]">
+                <div class="relative w-full">
                     
                     <!-- Patient Form -->
-                    <div id="formPatient" class="absolute top-0 left-0 w-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] opacity-100 translate-x-0">
+                    <div id="formPatient" class="w-full w-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] opacity-100 translate-x-0">
                         <form id="patientForm" onsubmit="handleSubmit(event, this);">
-                            <div class="space-y-4 mb-6">
+                            <div class="space-y-3 mb-4">
                                 <div>
                                     <label class="block text-[11px] font-extrabold text-slate-700 uppercase tracking-widest mb-1.5">Health ID / Email</label>
                                     <input type="text" id="patientIdentifier" placeholder="ABHA-1234 or Email..." 
@@ -112,7 +120,7 @@
                                 </div>
                             </div>
                             
-                            <button type="submit" id="patientBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[15px] py-4 rounded-xl transition-all shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/30 focus:ring-4 focus:ring-emerald-500/30 active:scale-[0.98] mb-6 flex items-center justify-center gap-2">
+                            <button type="submit" id="patientBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[15px] py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/30 focus:ring-4 focus:ring-emerald-500/30 active:scale-[0.98] mb-4 flex items-center justify-center gap-2">
                                 <span class="btn-text">Authorize Access</span> 
                                 <svg class="w-4 h-4 btn-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                                 <svg class="w-5 h-5 hidden btn-spinner spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -131,7 +139,7 @@
                     </div>
                     
                     <!-- Admin Form -->
-                    <div id="formAdmin" class="absolute top-0 left-0 w-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] opacity-0 translate-x-12 pointer-events-none">
+                    <div id="formAdmin" class="hidden w-full w-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] opacity-0 translate-x-12 pointer-events-none">
                         <form id="adminForm" onsubmit="handleSubmit(event, this);">
                             <div class="bg-indigo-50/80 border border-indigo-100/80 rounded-xl p-4 mb-6 flex items-start gap-3">
                                 <svg class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
@@ -467,7 +475,8 @@
                 
                 formAdmin.classList.remove('opacity-100', 'translate-x-0');
                 formAdmin.classList.add('opacity-0', 'translate-x-12', 'pointer-events-none');
-                
+                formPatient.classList.remove('hidden');
+                formAdmin.classList.add('hidden');
                 setTimeout(() => {
                     formPatient.classList.remove('opacity-0', '-translate-x-12', 'pointer-events-none');
                     formPatient.classList.add('opacity-100', 'translate-x-0');
@@ -481,10 +490,12 @@
                 
                 formPatient.classList.remove('opacity-100', 'translate-x-0');
                 formPatient.classList.add('opacity-0', '-translate-x-12', 'pointer-events-none');
-                
+                formAdmin.classList.remove('hidden');
                 setTimeout(() => {
                     formAdmin.classList.remove('opacity-0', 'translate-x-12', 'pointer-events-none');
                     formAdmin.classList.add('opacity-100', 'translate-x-0');
+                    formPatient.classList.add('hidden');
+                    formAdmin.classList.remove('hidden');
                 }, 50);
             }
         }
