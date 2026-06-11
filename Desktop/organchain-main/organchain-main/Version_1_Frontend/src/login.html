@@ -7,7 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script>tailwind.config={darkMode:'class'}</script>
+    <script>if(localStorage.getItem('organchain-theme')==='dark'||(!localStorage.getItem('organchain-theme')&&window.matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')</script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="dark-mode.css">
     <title>Tech Knight | Secure Authentication</title>
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -42,7 +45,11 @@
             <a href="index.html" class="flex items-center gap-2 transition-opacity hover:opacity-90">
                 <span class="text-white font-extrabold tracking-tight text-xl"><img src="images/organ-donation-logo-new.svg" alt="Logo" class="h-8 w-auto mr-1.5 drop-shadow-md" /> <span class="font-light text-slate-300">OrganChain</span></span>
             </a>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-3">
+                <button onclick="organChainTheme.toggle()" class="text-slate-400 hover:text-emerald-500 transition-colors p-2 rounded-lg hover:bg-slate-800/50" title="Toggle theme">
+                    <svg class="dark:hidden w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+                    <svg class="hidden dark:block w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+                </button>
                 <span class="relative flex h-2 w-2">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -53,14 +60,22 @@
     </header>
 
     <!-- ── Main Content ── -->
-    <main class="flex-1 w-full flex items-center justify-center p-4 sm:p-6 relative z-10">
+    <main class="flex-1 w-full flex justify-center p-4 sm:p-6 relative z-10 overflow-y-auto">
         
         <!-- Portal Card -->
-        <div class="w-full max-w-md bg-white rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] border border-slate-200/50 overflow-hidden relative backdrop-blur-3xl mx-auto portal-animate">
+        <div class="portal-card w-full max-w-md max-h-[92vh] bg-white rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] border border-slate-200/50 overflow-y-auto relative backdrop-blur-3xl mx-auto portal-animate">
+            <style>
+@media (max-height: 800px) {
+    .portal-card {
+        max-height: 92vh;
+        overflow-y: auto;
+    }
+}
+</style>
             <!-- Top Color Bar -->
             <div class="h-1.5 w-full bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-600"></div>
 
-            <div class="p-6 sm:p-8">
+            <div class="p-5 sm:p-6">
                 <div class="text-center mb-6">
                     <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">Login</h1>
                     <p class="text-slate-500 text-[13px] font-medium">Select your authorized clearance level</p>
@@ -84,12 +99,12 @@
                 </div>
 
                 <!-- Form Container -->
-                <div class="relative w-full min-h-[280px]">
+                <div class="relative w-full">
                     
                     <!-- Patient Form -->
-                    <div id="formPatient" class="absolute top-0 left-0 w-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] opacity-100 translate-x-0">
+                    <div id="formPatient" class="w-full w-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] opacity-100 translate-x-0">
                         <form id="patientForm" onsubmit="handleSubmit(event, this);">
-                            <div class="space-y-4 mb-6">
+                            <div class="space-y-3 mb-4">
                                 <div>
                                     <label class="block text-[11px] font-extrabold text-slate-700 uppercase tracking-widest mb-1.5">Health ID / Email</label>
                                     <input type="text" id="patientIdentifier" placeholder="ABHA-1234 or Email..." 
@@ -108,7 +123,7 @@
                                 </div>
                             </div>
                             
-                            <button type="submit" id="patientBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[15px] py-4 rounded-xl transition-all shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/30 focus:ring-4 focus:ring-emerald-500/30 active:scale-[0.98] mb-6 flex items-center justify-center gap-2">
+                            <button type="submit" id="patientBtn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[15px] py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/30 focus:ring-4 focus:ring-emerald-500/30 active:scale-[0.98] mb-4 flex items-center justify-center gap-2">
                                 <span class="btn-text">Authorize Access</span> 
                                 <svg class="w-4 h-4 btn-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                                 <svg class="w-5 h-5 hidden btn-spinner spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -127,7 +142,7 @@
                     </div>
                     
                     <!-- Admin Form -->
-                    <div id="formAdmin" class="absolute top-0 left-0 w-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] opacity-0 translate-x-12 pointer-events-none">
+                    <div id="formAdmin" class="hidden w-full w-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] opacity-0 translate-x-12 pointer-events-none">
                         <form id="adminForm" onsubmit="handleSubmit(event, this);">
                             <div class="bg-indigo-50/80 border border-indigo-100/80 rounded-xl p-4 mb-6 flex items-start gap-3">
                                 <svg class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
@@ -472,7 +487,8 @@
                 
                 formAdmin.classList.remove('opacity-100', 'translate-x-0');
                 formAdmin.classList.add('opacity-0', 'translate-x-12', 'pointer-events-none');
-                
+                formPatient.classList.remove('hidden');
+                formAdmin.classList.add('hidden');
                 setTimeout(() => {
                     formPatient.classList.remove('opacity-0', '-translate-x-12', 'pointer-events-none');
                     formPatient.classList.add('opacity-100', 'translate-x-0');
@@ -486,13 +502,16 @@
                 
                 formPatient.classList.remove('opacity-100', 'translate-x-0');
                 formPatient.classList.add('opacity-0', '-translate-x-12', 'pointer-events-none');
-                
+                formAdmin.classList.remove('hidden');
                 setTimeout(() => {
                     formAdmin.classList.remove('opacity-0', 'translate-x-12', 'pointer-events-none');
                     formAdmin.classList.add('opacity-100', 'translate-x-0');
+                    formPatient.classList.add('hidden');
+                    formAdmin.classList.remove('hidden');
                 }, 50);
             }
         }
     </script>
+    <script src="theme.js"></script>
 </body>
 </html>

@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.transplantchain.dto.LoginRequestDTO;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.validation.Valid;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,6 +21,9 @@ public class AuthController {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody LoginRequestDTO request) {
@@ -42,7 +47,8 @@ public class AuthController {
         Optional<Patient> optionalPatient = patientRepository.findByAbhaId(abhaId);
         if (optionalPatient.isEmpty()) {
             // Auto-register for demo purposes
-            Patient patient = new Patient(abhaId, password, "Patient " + abhaId.substring(0, Math.min(abhaId.length(), 6)));
+            String hashedPassword = passwordEncoder.encode(password);
+            Patient patient = new Patient(abhaId, hashedPassword, "Patient " + abhaId.substring(0, Math.min(abhaId.length(), 6)));
             patientRepository.save(patient);
             
             response.put("status", "success");
@@ -53,7 +59,7 @@ public class AuthController {
             return ResponseEntity.ok(response);
         } else {
             Patient p = optionalPatient.get();
-            if (!p.getPassword().equals(password)) {
+            if (!passwordEncoder.matches(password, p.getPassword())) {
                 return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
             }
             response.put("status", "success");

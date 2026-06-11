@@ -30,6 +30,8 @@ module.exports = {
     new CopyWebpackPlugin([{ from: "./src/pledge-verification.html", to: "pledge-verification.html" }]),
     new CopyWebpackPlugin([{ from: "./src/admin-dashboard.html", to: "admin-dashboard.html" }]),
     new CopyWebpackPlugin([{ from: "./src/admin-dashboard-script.js", to: "admin-dashboard-script.js" }]),
+    new CopyWebpackPlugin([{ from: "./src/dark-mode.css", to: "dark-mode.css" }]),
+    new CopyWebpackPlugin([{ from: "./src/theme.js", to: "theme.js" }]),
     // forms directory served directly via contentBase (not copied, to preserve binary PDF integrity)
 
 

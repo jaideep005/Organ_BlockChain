@@ -149,9 +149,15 @@
   .print-btn { position: fixed; top: 24px; right: 24px; background: #10B981; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer; z-index: 1000; box-shadow: 0 4px 12px rgba(16,185,129,0.4); transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
   .print-btn:hover { background: #059669; transform: translateY(-1px); }
 </style>
+    <link rel="stylesheet" href="dark-mode.css">
+    <script>if(localStorage.getItem('organchain-theme')==='dark'||(!localStorage.getItem('organchain-theme')&&window.matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')</script>
 </head>
 <body>
 
+<button onclick="organChainTheme.toggle()" class="no-print" style="position:fixed;top:20px;right:80px;z-index:1000;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:#34d399;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:700;transition:all 0.2s;backdrop-filter:blur(8px);display:flex;align-items:center;gap:6px;" title="Toggle theme">
+    <svg class="dark:hidden" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg>
+    <svg class="hidden dark:block" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>
+</button>
 <button class="print-btn no-print" onclick="window.print()">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
   Save as PDF
@@ -557,5 +563,6 @@
   <p style="margin-top:6px;font-size:0.72rem;color:#334155;">Block #14,207,921 &nbsp;·&nbsp; SHA-256: 0x89b2c4f1e8a7d63f5b2e91c4...f21a &nbsp;·&nbsp; NOTTO-ID: NTO-B-2026-887491</p>
 </div>
 
+    <script src="theme.js"></script>
 </body>
 </html>
