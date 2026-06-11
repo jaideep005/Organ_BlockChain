@@ -98,7 +98,10 @@
                                 <div>
                                     <div class="flex items-center justify-between mb-1.5">
                                         <label class="block text-[11px] font-extrabold text-slate-700 uppercase tracking-widest">Password</label>
-                                        <a href="#" class="text-[11px] font-bold text-emerald-600 hover:text-emerald-700 transition-colors">Recover?</a>
+                                        <a href="#" onclick="showRecoveryInfo(event)"
+                                            class="text-[11px] font-bold text-emerald-600 hover:text-emerald-700 transition-colors">
+                                            Recover?
+                                        </a>
                                     </div>
                                     <input type="password" id="patientPassword" placeholder="••••••••" 
                                            class="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 placeholder:text-slate-400 hover:bg-white hover:border-slate-300 tracking-widest">
@@ -440,6 +443,15 @@
                 toast.classList.add('translate-y-[-100%]', 'opacity-0');
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
+        }
+
+        function showRecoveryInfo(event) {
+            event.preventDefault();
+
+            showToast(
+                "Password recovery is not yet implemented. Please contact the administrator or register again.",
+                "info"
+            );
         }
 
         function switchTab(tab) {
