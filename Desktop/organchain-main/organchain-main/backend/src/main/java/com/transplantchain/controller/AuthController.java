@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -21,6 +23,23 @@ public class AuthController {
 
     @Autowired
     private PatientRepository patientRepository;
+    private final ConcurrentHashMap<String, AtomicInteger> otpAttempts = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Long> otpLockouts = new ConcurrentHashMap<>();
+    private boolean isLocked(String abhaId) {
+        Long lockoutUntil = otpLockouts.get(abhaId);
+
+        if (lockoutUntil == null) {
+            return false;
+        }
+
+        if (System.currentTimeMillis() > lockoutUntil) {
+            otpLockouts.remove(abhaId);
+            otpAttempts.remove(abhaId);
+            return false;
+        }
+
+        return true;
+    }
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -75,17 +94,51 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> verifyOtp(@Valid @RequestBody LoginRequestDTO request) {
         String abhaId = request.getAbhaId();
         String otp = request.getOtp();
+        if (isLocked(abhaId)) {
+            return ResponseEntity.status(429)
+                    .body(Map.of(
+                            "error",
+                            "Too many failed OTP attempts. Please try again later."
+                    ));
+        }
         
         Map<String, Object> response = new HashMap<>();
 
         if ("123456".equals(otp)) {
+            otpAttempts.remove(abhaId);
+            otpLockouts.remove(abhaId);
+
             response.put("status", "success");
             response.put("message", "OTP Verified");
             response.put("token", UUID.randomUUID().toString());
             response.put("abhaId", abhaId);
             return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(401).body(Map.of("error", "Invalid OTP"));
+            int attempts = otpAttempts
+                    .computeIfAbsent(abhaId, k -> new AtomicInteger(0))
+                    .incrementAndGet();
+
+            if (attempts >= 5) {
+                otpLockouts.put(
+                        abhaId,
+                        System.currentTimeMillis() + (15 * 60 * 1000)
+                );
+                otpAttempts.remove(abhaId);
+                return ResponseEntity.status(429)
+                        .body(Map.of(
+                                "error",
+                                "Account temporarily locked after multiple failed OTP attempts."
+                        ));
+            }
+
+            return ResponseEntity.status(401)
+                    .body(Map.of(
+                            "error",
+                            "Invalid OTP",
+                            "remainingAttempts",
+                            String.valueOf(5 - attempts)
+                            
+                    ));
         }
     }
 }
