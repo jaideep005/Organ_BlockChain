@@ -1,8 +1,8 @@
-# Contributing to OrganChain
+# Contributing to Organ_BlockChain
 
-Thank you for your interest in contributing to OrganChain!
+Thank you for your interest in contributing to Organ_BlockChain!
 
-OrganChain is a decentralized healthcare platform focused on secure, transparent, and tamper-proof organ donation and medical data management using Blockchain, IPFS, and Cloud technologies.
+Organ_BlockChain is a decentralized healthcare platform focused on secure, transparent, and tamper-proof organ donation and medical data management using Blockchain, IPFS, and Cloud technologies.
 
 We welcome developers, designers, researchers, and documentation contributors who want to help build a trustworthy healthcare ecosystem.
 
@@ -146,4 +146,4 @@ If you have questions regarding an issue or contribution process, feel free to o
 
 Together, we can build a more transparent and trustworthy healthcare ecosystem through decentralization.
 
-Thank you for contributing to OrganChain! ❤️
+Thank you for contributing to Organ_BlockChain! ❤️
