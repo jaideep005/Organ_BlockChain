@@ -39,7 +39,6 @@ function animateCounter(counter) {
     const suffix = counter.dataset.suffix || "";
 
     let current = 0;
-
     const duration = 1000;
     const increment = target / (duration / 16);
 
@@ -61,12 +60,13 @@ function animateCounter(counter) {
     update();
 }
 
-const observer = new IntersectionObserver(
+// Renamed to avoid conflicts
+const counterObserver = new IntersectionObserver(
     (entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 animateCounter(entry.target);
-                observer.unobserve(entry.target);
+                counterObserver.unobserve(entry.target);
             }
         });
     },
@@ -75,4 +75,6 @@ const observer = new IntersectionObserver(
     }
 );
 
-counters.forEach((counter) => observer.observe(counter));
+counters.forEach((counter) => {
+    counterObserver.observe(counter);
+});
