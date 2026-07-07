@@ -167,6 +167,9 @@ cd frontend
 npm install
 npm start
 ```
+### API Documentation
+
+For a full list of backend API endpoint, request parameters and example responses, SEE [API Reference](./API.md).
 
 ### Smart Contract Deployment
 
