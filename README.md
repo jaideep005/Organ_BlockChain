@@ -167,6 +167,9 @@ cd frontend
 npm install
 npm start
 ```
+### API Documentation
+
+For a full list of backend API endpoint, request parameters and example responses, SEE [API Reference](./API.md).
 
 ### Smart Contract Deployment
 
@@ -217,6 +220,11 @@ cd contracts
 2. Create a new branch
 3. Commit your changes
 4. Push and create PR
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE]
+(/.MIT LICENSE) file for full details.
 
 ## Acknowledgement
 
