@@ -275,18 +275,29 @@
                     </button>
                 </div>
 
-                <!-- ── Patient Form ── -->
-                <div id="formPatient">
-                    <form id="patientForm" onsubmit="handleSubmit(event, this)">
-                        <div class="space-y-4 mb-5">
-                            <div>
-                                <label class="block text-[11px] font-extrabold text-slate-700 uppercase tracking-widest mb-2">Health ID / Email</label>
-                                <input type="text" id="patientIdentifier" placeholder="ABHA-1234 or Email…" class="field-input">
-                            </div>
-                            <div>
-                                <div class="flex items-center justify-between mb-2">
-                                    <label class="block text-[11px] font-extrabold text-slate-700 uppercase tracking-widest">Password</label>
-                                    <a href="#" class="text-[11px] font-bold text-emerald-600 hover:text-emerald-700 transition-colors">Recover?</a>
+                <!-- Form Container -->
+                <div class="relative w-full min-h-[280px]">
+                    
+                    <!-- Patient Form -->
+                    <div id="formPatient" class="absolute top-0 left-0 w-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] opacity-100 translate-x-0">
+                        <form id="patientForm" onsubmit="handleSubmit(event, this);">
+                            <div class="space-y-4 mb-6">
+                                <div>
+                                    <label class="block text-[11px] font-extrabold text-slate-700 uppercase tracking-widest mb-1.5">Health ID / Email</label>
+                                    <input type="text" id="patientIdentifier" placeholder="ABHA-1234 or Email..." 
+                                           class="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 placeholder:text-slate-400 hover:bg-white hover:border-slate-300">
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <label class="block text-[11px] font-extrabold text-slate-700 uppercase tracking-widest">Password</label>
+                                        <a href="#" onclick="showRecoveryInfo(event)"
+                                            class="text-[11px] font-bold text-emerald-600 hover:text-emerald-700 transition-colors">
+                                            Recover?
+                                        </a>
+                                    </div>
+                                    <input type="password" id="patientPassword" placeholder="••••••••" 
+                                           class="w-full bg-slate-50 border border-slate-200 px-4 py-3.5 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 placeholder:text-slate-400 hover:bg-white hover:border-slate-300 tracking-widest">
+
                                 </div>
                                 <input type="password" id="patientPassword" placeholder="••••••••" class="field-input password-field">
                             </div>
@@ -571,6 +582,38 @@
             }
         }
 
+        function showRecoveryInfo(event) {
+            event.preventDefault();
+
+            showToast(
+                "Password recovery is not yet implemented. Please contact the administrator or register again.",
+                "info"
+            );
+        }
+
+        function switchTab(tab) {
+            activeRole = tab;
+            const toggleBg = document.getElementById('toggleBg');
+            const btnPatient = document.getElementById('btnPatient');
+            const btnAdmin = document.getElementById('btnAdmin');
+            
+            const formPatient = document.getElementById('formPatient');
+            const formAdmin = document.getElementById('formAdmin');
+            
+            if (tab === 'patient') {
+                toggleBg.style.transform = 'translateX(0)';
+                btnPatient.classList.remove('text-slate-500');
+                btnPatient.classList.add('text-emerald-700');
+                btnAdmin.classList.add('text-slate-500');
+                btnAdmin.classList.remove('text-emerald-700');
+                
+                formAdmin.classList.remove('opacity-100', 'translate-x-0');
+                formAdmin.classList.add('opacity-0', 'translate-x-12', 'pointer-events-none');
+                
+                setTimeout(() => {
+                    formPatient.classList.remove('opacity-0', '-translate-x-12', 'pointer-events-none');
+                    formPatient.classList.add('opacity-100', 'translate-x-0');
+                }, 50); 
         /* ── Helpers ── */
         function setLoading(btn, on, text) {
             if (!btn) return;
