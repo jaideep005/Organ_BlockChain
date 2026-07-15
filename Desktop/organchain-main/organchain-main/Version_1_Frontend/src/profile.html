@@ -93,6 +93,73 @@
         input:focus {
             outline: none;
         }
+
+        /* ==========================================================================
+           Reusable Status Badge styles (compatible with light/dark themes)
+           ========================================================================== */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 9999px;
+            border-width: 1px;
+            border-style: solid;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .status-badge-success {
+            background-color: #ecfdf5;
+            color: #047857;
+            border-color: #a7f3d0;
+        }
+        .status-badge-success .status-dot {
+            background-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        .dark .status-badge-success {
+            background-color: #022c22 !important;
+            color: #34d399 !important;
+            border-color: #065f46 !important;
+        }
+        .dark .status-badge-success .status-dot {
+            background-color: #34d399 !important;
+            box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.2) !important;
+        }
+
+        .status-badge-warning {
+            background-color: #fffbeb;
+            color: #b45309;
+            border-color: #fcd34d;
+        }
+        .status-badge-warning .status-dot {
+            background-color: #f59e0b;
+            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+        }
+
+        .dark .status-badge-warning {
+            background-color: #451a03 !important;
+            color: #fbbf24 !important;
+            border-color: #78350f !important;
+        }
+        .dark .status-badge-warning .status-dot {
+            background-color: #fbbf24 !important;
+            box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2) !important;
+        }
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -379,14 +446,17 @@
                     </div>
                     <div class="p-7 grid grid-cols-1 sm:grid-cols-3 gap-5">
                         <!-- Blood Group -->
-                        <div class="bg-rose-50 border border-rose-100 rounded-2xl p-5">
-                            <p class="text-[10px] font-bold text-rose-500 uppercase tracking-widest mb-2">Blood Group
-                            </p>
-                            <div class="flex items-center gap-2">
-                                <span class="text-4xl font-extrabold text-rose-600" id="profBloodGroup">O+</span>
+                        <div class="bg-rose-50 border border-rose-100 rounded-2xl p-5 flex flex-col justify-between">
+                            <div>
+                                <p class="text-[10px] font-bold text-rose-500 uppercase tracking-widest mb-2">Blood Group</p>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-4xl font-extrabold text-rose-600" id="profBloodGroup">O+</span>
+                                    <span id="profBloodBadge" class="status-badge status-badge-success">
+                                        <span class="status-dot"></span>
+                                        <span id="profBloodLabel" class="status-text">Universal Donor Compatible</span>
+                                    </span>
+                                </div>
                             </div>
-                            <p class="text-[11px] text-rose-400 font-medium mt-2" id="profBloodLabel">Universal Donor
-                                Compatible</p>
                         </div>
                         <!-- HLA Type -->
                         <div class="bg-blue-50 border border-blue-100 rounded-2xl p-5">
@@ -621,10 +691,33 @@
             if (pledgeBlood) {
                 const bgEl = document.getElementById('profBloodGroup');
                 if (bgEl) bgEl.textContent = pledgeBlood;
+                
                 const bgLabel = document.getElementById('profBloodLabel');
+                const badgeEl = document.getElementById('profBloodBadge');
+                
                 if (bgLabel) {
-                    const compatMap = { 'O+': 'Universal Donor', 'O-': 'Universal Donor', 'A+': 'Group A', 'A-': 'Group A', 'B+': 'Group B', 'B-': 'Group B', 'AB+': 'Universal Recipient', 'AB-': 'Universal Recipient' };
-                    bgLabel.textContent = compatMap[pledgeBlood] || 'Blood Type Verified';
+                    const compatMap = { 
+                        'O+': 'Universal Donor', 
+                        'O-': 'Universal Donor', 
+                        'A+': 'Group A', 
+                        'A-': 'Group A', 
+                        'B+': 'Group B', 
+                        'B-': 'Group B', 
+                        'AB+': 'Universal Recipient', 
+                        'AB-': 'Universal Recipient' 
+                    };
+                    const statusText = compatMap[pledgeBlood] || 'Blood Type Verified';
+                    bgLabel.textContent = statusText;
+
+                    if (badgeEl) {
+                        badgeEl.className = 'status-badge'; // reset
+                        if (statusText.includes('Universal Donor')) {
+                            badgeEl.classList.add('status-badge-success');
+                        } else {
+                            badgeEl.classList.add('status-badge-warning');
+                            bgLabel.textContent = statusText + ' (High Need)';
+                        }
+                    }
                 }
             }
 
