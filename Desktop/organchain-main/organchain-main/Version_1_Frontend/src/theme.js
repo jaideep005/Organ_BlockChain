@@ -30,3 +30,51 @@
     }
   };
 })();
+
+
+const counters = document.querySelectorAll(".counter");
+
+function animateCounter(counter) {
+    const target = Number(counter.dataset.target);
+    const suffix = counter.dataset.suffix || "";
+
+    let current = 0;
+    const duration = 1000;
+    const increment = target / (duration / 16);
+
+    function update() {
+        current += increment;
+
+        if (current >= target) {
+            current = target;
+        }
+
+        counter.textContent =
+            Math.floor(current).toLocaleString() + suffix;
+
+        if (current < target) {
+            requestAnimationFrame(update);
+        }
+    }
+
+    update();
+}
+
+// Renamed to avoid conflicts
+const counterObserver = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                counterObserver.unobserve(entry.target);
+            }
+        });
+    },
+    {
+        threshold: 0.4,
+    }
+);
+
+counters.forEach((counter) => {
+    counterObserver.observe(counter);
+});
