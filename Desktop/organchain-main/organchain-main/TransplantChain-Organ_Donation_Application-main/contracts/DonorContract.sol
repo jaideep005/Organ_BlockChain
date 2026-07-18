@@ -1,6 +1,6 @@
 
 pragma solidity ^0.8.10;
-
+// SPDX-License-Identifier: MIT
 contract DonorContract {
 
     struct pledged
@@ -84,7 +84,7 @@ contract DonorContract {
                        string memory _blood_type, string[] memory _organ, uint _weight, uint _height)
     public
     {
-        require ( keccak256(abi.encodePacked((donorMap[_medical_id].medical_id))) != keccak256(abi.encodePacked(_medical_id)));
+        require(keccak256(abi.encodePacked((patientMap[_medical_id].medical_id))) != keccak256(abi.encodePacked(_medical_id)));
         patientMap[_medical_id].fullname = _fullname;
         patientMap[_medical_id].age = _age;
         patientMap[_medical_id].gender = _gender;

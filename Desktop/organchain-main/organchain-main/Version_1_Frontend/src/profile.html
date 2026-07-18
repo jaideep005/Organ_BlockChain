@@ -11,7 +11,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
         rel="stylesheet">
+    <script>tailwind.config={darkMode:'class'}</script>
+    <script>if(localStorage.getItem('organchain-theme')==='dark'||(!localStorage.getItem('organchain-theme')&&window.matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')</script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="dark-mode.css">
     <title>My Profile — OrganChain</title>
     <style>
         body {
@@ -90,10 +93,77 @@
         input:focus {
             outline: none;
         }
+
+        /* ==========================================================================
+           Reusable Status Badge styles (compatible with light/dark themes)
+           ========================================================================== */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 9999px;
+            border-width: 1px;
+            border-style: solid;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .status-badge-success {
+            background-color: #ecfdf5;
+            color: #047857;
+            border-color: #a7f3d0;
+        }
+        .status-badge-success .status-dot {
+            background-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        .dark .status-badge-success {
+            background-color: #022c22 !important;
+            color: #34d399 !important;
+            border-color: #065f46 !important;
+        }
+        .dark .status-badge-success .status-dot {
+            background-color: #34d399 !important;
+            box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.2) !important;
+        }
+
+        .status-badge-warning {
+            background-color: #fffbeb;
+            color: #b45309;
+            border-color: #fcd34d;
+        }
+        .status-badge-warning .status-dot {
+            background-color: #f59e0b;
+            box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+        }
+
+        .dark .status-badge-warning {
+            background-color: #451a03 !important;
+            color: #fbbf24 !important;
+            border-color: #78350f !important;
+        }
+        .dark .status-badge-warning .status-dot {
+            background-color: #fbbf24 !important;
+            box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2) !important;
+        }
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-
+<script src="session-timeout.js"></script>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen pt-16">
 
     <!-- Sticky Nav -->
@@ -115,6 +185,10 @@
                 <li><a href="download-forms.html" class="nav-item" style="display:flex; align-items:center;"><i data-lucide="file-text" class="w-[18px] h-[18px] mr-2"></i><span>Download Forms</span></a></li>
                 <li><a href="profile.html" class="nav-item nav-active" style="display:flex; align-items:center;"><i data-lucide="user" class="w-[18px] h-[18px] mr-2"></i><span>Profile</span></a></li>
             </ul>
+                <button onclick="organChainTheme.toggle()" class="text-slate-400 hover:text-emerald-500 transition-colors p-2 rounded-lg hover:bg-slate-800/50 shrink-0" title="Toggle theme">
+                <svg class="dark:hidden w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>
+                <svg class="hidden dark:block w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+            </button>
                 <div class="h-6 w-px bg-slate-700 hidden md:block"></div>
                 <button onclick="sessionStorage.clear(); window.location.href='index.html';" class="text-xs font-bold text-slate-400 hover:text-emerald-500 transition-colors flex items-center gap-1.5 border border-slate-700 hover:border-emerald-500/50 px-3 py-1.5 rounded-lg shrink-0">
                 <i data-lucide="log-out" class="w-[18px] h-[18px]"></i>
@@ -372,14 +446,17 @@
                     </div>
                     <div class="p-7 grid grid-cols-1 sm:grid-cols-3 gap-5">
                         <!-- Blood Group -->
-                        <div class="bg-rose-50 border border-rose-100 rounded-2xl p-5">
-                            <p class="text-[10px] font-bold text-rose-500 uppercase tracking-widest mb-2">Blood Group
-                            </p>
-                            <div class="flex items-center gap-2">
-                                <span class="text-4xl font-extrabold text-rose-600" id="profBloodGroup">O+</span>
+                        <div class="bg-rose-50 border border-rose-100 rounded-2xl p-5 flex flex-col justify-between">
+                            <div>
+                                <p class="text-[10px] font-bold text-rose-500 uppercase tracking-widest mb-2">Blood Group</p>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-4xl font-extrabold text-rose-600" id="profBloodGroup">O+</span>
+                                    <span id="profBloodBadge" class="status-badge status-badge-success">
+                                        <span class="status-dot"></span>
+                                        <span id="profBloodLabel" class="status-text">Universal Donor Compatible</span>
+                                    </span>
+                                </div>
                             </div>
-                            <p class="text-[11px] text-rose-400 font-medium mt-2" id="profBloodLabel">Universal Donor
-                                Compatible</p>
                         </div>
                         <!-- HLA Type -->
                         <div class="bg-blue-50 border border-blue-100 rounded-2xl p-5">
@@ -614,10 +691,33 @@
             if (pledgeBlood) {
                 const bgEl = document.getElementById('profBloodGroup');
                 if (bgEl) bgEl.textContent = pledgeBlood;
+                
                 const bgLabel = document.getElementById('profBloodLabel');
+                const badgeEl = document.getElementById('profBloodBadge');
+                
                 if (bgLabel) {
-                    const compatMap = { 'O+': 'Universal Donor', 'O-': 'Universal Donor', 'A+': 'Group A', 'A-': 'Group A', 'B+': 'Group B', 'B-': 'Group B', 'AB+': 'Universal Recipient', 'AB-': 'Universal Recipient' };
-                    bgLabel.textContent = compatMap[pledgeBlood] || 'Blood Type Verified';
+                    const compatMap = { 
+                        'O+': 'Universal Donor', 
+                        'O-': 'Universal Donor', 
+                        'A+': 'Group A', 
+                        'A-': 'Group A', 
+                        'B+': 'Group B', 
+                        'B-': 'Group B', 
+                        'AB+': 'Universal Recipient', 
+                        'AB-': 'Universal Recipient' 
+                    };
+                    const statusText = compatMap[pledgeBlood] || 'Blood Type Verified';
+                    bgLabel.textContent = statusText;
+
+                    if (badgeEl) {
+                        badgeEl.className = 'status-badge'; // reset
+                        if (statusText.includes('Universal Donor')) {
+                            badgeEl.classList.add('status-badge-success');
+                        } else {
+                            badgeEl.classList.add('status-badge-warning');
+                            bgLabel.textContent = statusText + ' (High Need)';
+                        }
+                    }
                 }
             }
 
@@ -711,6 +811,7 @@
             setTimeout(() => toast.classList.add('hidden'), 3500);
         }
     </script>
+    <script src="theme.js"></script>
     <script>lucide.createIcons();</script>
 </body>
 

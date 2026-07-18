@@ -3,6 +3,7 @@ package com.transplantchain.service;
 import com.transplantchain.contract.OrganChain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.EthBlock;
@@ -21,28 +22,31 @@ public class BlockchainService {
 
     private OrganChain organChainContract;
 
-    private final String privateKey = System.getenv("BLOCKCHAIN_PRIVATE_KEY");
-    private static final String CONTRACT_ADDRESS = "0x4579a2452e6ff61841c501F42f0D98237d4b6134";
-    private Credentials credentials;
+    @Value("${web3.private-key}")
+    private String privateKey;
+
+    @Value("${web3.contract-address}")
+    private String contractAddress;
+
     @PostConstruct
     public void init() {
         try {
             if (privateKey == null || privateKey.isBlank()) {
                 throw new IllegalStateException(
-                    "BLOCKCHAIN_PRIVATE_KEY environment variable is not set."
+                        "web3.private-key is not configured."
                 );
             }
 
-            credentials = Credentials.create(privateKey);
+            Credentials credentials = Credentials.create(privateKey);
 
             organChainContract = OrganChain.load(
-                    CONTRACT_ADDRESS,
+                    contractAddress,
                     web3j,
                     credentials,
                     new DefaultGasProvider()
             );
 
-            System.out.println("Blockchain Service initialized with contract: " + CONTRACT_ADDRESS);
+            System.out.println("Blockchain Service initialized with contract: " + contractAddress);
 
         } catch (Exception e) {
             System.err.println("Blockchain Service init failed: " + e.getMessage());
