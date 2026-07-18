@@ -21,22 +21,31 @@ public class BlockchainService {
 
     private OrganChain organChainContract;
 
-    private static final String PRIVATE_KEY = "0xba4551eaab1881c5fa5bac705e134ebe57c82a23febc2a74a6e2ab9c2c406895";
+    private final String privateKey = System.getenv("BLOCKCHAIN_PRIVATE_KEY");
     private static final String CONTRACT_ADDRESS = "0x4579a2452e6ff61841c501F42f0D98237d4b6134";
-
+    private Credentials credentials;
     @PostConstruct
     public void init() {
         try {
-            Credentials credentials = Credentials.create(PRIVATE_KEY);
+            if (privateKey == null || privateKey.isBlank()) {
+                throw new IllegalStateException(
+                    "BLOCKCHAIN_PRIVATE_KEY environment variable is not set."
+                );
+            }
+
+            credentials = Credentials.create(privateKey);
+
             organChainContract = OrganChain.load(
                     CONTRACT_ADDRESS,
                     web3j,
                     credentials,
                     new DefaultGasProvider()
             );
+
             System.out.println("Blockchain Service initialized with contract: " + CONTRACT_ADDRESS);
+
         } catch (Exception e) {
-            System.err.println("Blockchain Service init failed (Ganache may be offline): " + e.getMessage());
+            System.err.println("Blockchain Service init failed: " + e.getMessage());
         }
     }
 
