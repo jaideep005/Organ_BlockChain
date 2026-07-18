@@ -55,18 +55,33 @@ public class PatientPipelineController {
     }
 
     @GetMapping("/security/alerts")
-    public ResponseEntity<List<Map<String, String>>> getSecurityAlerts() {
+    public ResponseEntity<?> getSecurityAlerts(
+            @RequestHeader(value = "Authorization", defaultValue = "") String auth) {
+
+        if (!auth.contains("ADMIN_SIG")) {
+            return ResponseEntity.status(403)
+                    .body(Map.of("error", "Unauthorized"));
+        }
+
         return ResponseEntity.ok(securityAlerts);
     }
 
     @GetMapping("/security/status")
-    public ResponseEntity<Map<String, Object>> getSecurityStatus() {
+    public ResponseEntity<?> getSecurityStatus(
+            @RequestHeader(value = "Authorization", defaultValue = "") String auth) {
+
+        if (!auth.contains("ADMIN_SIG")) {
+            return ResponseEntity.status(403)
+                    .body(Map.of("error", "Unauthorized"));
+        }
+
         Map<String, Object> status = new HashMap<>();
         status.put("activeMonitors", requestCounts.size());
         status.put("alertCount", securityAlerts.size());
         status.put("rateLimit", "30 req/min");
         status.put("multiSigRequired", true);
         status.put("status", securityAlerts.isEmpty() ? "NOMINAL" : "ELEVATED");
+
         return ResponseEntity.ok(status);
     }
 
