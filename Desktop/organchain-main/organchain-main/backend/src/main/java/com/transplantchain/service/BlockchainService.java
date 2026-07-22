@@ -31,16 +31,25 @@ public class BlockchainService {
     @PostConstruct
     public void init() {
         try {
+            if (privateKey == null || privateKey.isBlank()) {
+                throw new IllegalStateException(
+                        "web3.private-key is not configured."
+                );
+            }
+
             Credentials credentials = Credentials.create(privateKey);
+
             organChainContract = OrganChain.load(
                     contractAddress,
                     web3j,
                     credentials,
                     new DefaultGasProvider()
             );
+
             System.out.println("Blockchain Service initialized with contract: " + contractAddress);
+
         } catch (Exception e) {
-            System.err.println("Blockchain Service init failed (Ganache may be offline): " + e.getMessage());
+            System.err.println("Blockchain Service init failed: " + e.getMessage());
         }
     }
 
