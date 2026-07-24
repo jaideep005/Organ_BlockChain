@@ -221,10 +221,13 @@ cd contracts
 3. Commit your changes
 4. Push and create PR
 
-## License
+## License 
 
-This project is licensed under the MIT License. See the [LICENSE]
-(/.MIT LICENSE) file for full details.
+> **MIT License**
+>
+> This project is licensed under the MIT License.
+>
+> For the complete license text, see the [LICENSE](LICENSE) file. 
 
 ## Acknowledgement
 
