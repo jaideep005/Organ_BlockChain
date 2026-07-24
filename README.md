@@ -171,6 +171,38 @@ npm start
 
 For a full list of backend API endpoint, request parameters and example responses, SEE [API Reference](./API.md).
 
+### Environment Variables Setup Guide
+
+This project uses environment variables to keep sensitive credentials and environment-specific settings out of the codebase. Spring Boot reads these values through placeholders in application.properties, with fallback defaults where provided.
+
+
+### Required Variables 
+Variable | Purpose 
+
+PINATA_API_KEY | Pinata Api key used for IFPS-related Operations 
+
+PINATA_API_SECRET | Pinata Api secret used for Pinata Authentication.
+
+PINATA_JWT | Pinata JWT token used for authenticated Pinata API requests.
+
+WEB3_PRIVATE_KEY= Ethereum/Web3 private key used by Backend.
+
+WEB3_CONTRACT_ADDRESS= Deployed smart contract address used by the backend.
+
+SPRING_DATASOURCE_URL | Database connection string default to loal H2 if not set.
+
+### Pinata Setup
+Create a Pinata account, then go to the API Keys page and click New Key. Pinata shows the API key, API secret, and JWT immediately after creation, and the secret/JWT are only shown once, so save them securely.
+
+### Alchemy setup
+Create an app in the Alchemy Dashboard, then copy the API key from the app details page. Alchemy’s docs say the API key is available after creating an app, and the dashboard also provides the endpoint URLs you may need for requests.
+
+### NOTES FOR CONTRIBUTORS 
+- Add a .env file at the project root inside organchain-main/.
+- Never commit real secret to github as .env file contains    secret so never push this file in github.
+- if any variable missing in your project, the backend might fail, so filling all environment variables is recommended.
+
+
 ### Smart Contract Deployment
 
 ```bash
