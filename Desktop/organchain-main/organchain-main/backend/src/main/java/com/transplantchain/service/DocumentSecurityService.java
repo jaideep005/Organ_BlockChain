@@ -1,5 +1,8 @@
 package com.transplantchain.service;
 
+import com.transplantchain.entity.SecurityLog;
+import com.transplantchain.repository.SecurityLogRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
@@ -13,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.MessageDigest;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,6 +29,9 @@ public class DocumentSecurityService {
     private String pinataSecretApiKey;
 
     private final RestTemplate restTemplate = new RestTemplate();
+
+    @Autowired
+    private SecurityLogRepository securityLogRepository;
 
     public String calculateSha256(MultipartFile file) throws Exception {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -66,6 +73,14 @@ public class DocumentSecurityService {
         
         // Mock fallback so the UI progresses even without correct Pinata Keys
         return "Qm" + java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 44);
+    }
+
+    public List<SecurityLog> getDocumentsByStatus(String status) {
+        return securityLogRepository.findByStatus(status);
+    }
+
+    public long countDocumentsByStatus(String status) {
+        return securityLogRepository.findByStatus(status).size();
     }
 
     private static String bytesToHex(byte[] hash) {

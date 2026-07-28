@@ -6,11 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.transplantchain.dto.LoginRequestDTO;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.validation.Valid;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -19,6 +23,26 @@ public class AuthController {
 
     @Autowired
     private PatientRepository patientRepository;
+    private final ConcurrentHashMap<String, AtomicInteger> otpAttempts = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, Long> otpLockouts = new ConcurrentHashMap<>();
+    private boolean isLocked(String abhaId) {
+        Long lockoutUntil = otpLockouts.get(abhaId);
+
+        if (lockoutUntil == null) {
+            return false;
+        }
+
+        if (System.currentTimeMillis() > lockoutUntil) {
+            otpLockouts.remove(abhaId);
+            otpAttempts.remove(abhaId);
+            return false;
+        }
+
+        return true;
+    }
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody LoginRequestDTO request) {
@@ -42,7 +66,8 @@ public class AuthController {
         Optional<Patient> optionalPatient = patientRepository.findByAbhaId(abhaId);
         if (optionalPatient.isEmpty()) {
             // Auto-register for demo purposes
-            Patient patient = new Patient(abhaId, password, "Patient " + abhaId.substring(0, Math.min(abhaId.length(), 6)));
+            String hashedPassword = passwordEncoder.encode(password);
+            Patient patient = new Patient(abhaId, hashedPassword, "Patient " + abhaId.substring(0, Math.min(abhaId.length(), 6)));
             patientRepository.save(patient);
             
             response.put("status", "success");
@@ -53,7 +78,7 @@ public class AuthController {
             return ResponseEntity.ok(response);
         } else {
             Patient p = optionalPatient.get();
-            if (!p.getPassword().equals(password)) {
+            if (!passwordEncoder.matches(password, p.getPassword())) {
                 return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
             }
             response.put("status", "success");
@@ -69,17 +94,51 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> verifyOtp(@Valid @RequestBody LoginRequestDTO request) {
         String abhaId = request.getAbhaId();
         String otp = request.getOtp();
+        if (isLocked(abhaId)) {
+            return ResponseEntity.status(429)
+                    .body(Map.of(
+                            "error",
+                            "Too many failed OTP attempts. Please try again later."
+                    ));
+        }
         
         Map<String, Object> response = new HashMap<>();
 
         if ("123456".equals(otp)) {
+            otpAttempts.remove(abhaId);
+            otpLockouts.remove(abhaId);
+
             response.put("status", "success");
             response.put("message", "OTP Verified");
             response.put("token", UUID.randomUUID().toString());
             response.put("abhaId", abhaId);
             return ResponseEntity.ok(response);
         } else {
-            return ResponseEntity.status(401).body(Map.of("error", "Invalid OTP"));
+            int attempts = otpAttempts
+                    .computeIfAbsent(abhaId, k -> new AtomicInteger(0))
+                    .incrementAndGet();
+
+            if (attempts >= 5) {
+                otpLockouts.put(
+                        abhaId,
+                        System.currentTimeMillis() + (15 * 60 * 1000)
+                );
+                otpAttempts.remove(abhaId);
+                return ResponseEntity.status(429)
+                        .body(Map.of(
+                                "error",
+                                "Account temporarily locked after multiple failed OTP attempts."
+                        ));
+            }
+
+            return ResponseEntity.status(401)
+                    .body(Map.of(
+                            "error",
+                            "Invalid OTP",
+                            "remainingAttempts",
+                            String.valueOf(5 - attempts)
+                            
+                    ));
         }
     }
 }

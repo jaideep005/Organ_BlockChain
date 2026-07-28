@@ -10,7 +10,7 @@
   "author": "Rahul Sabinkar, Bongurala Sai Manikanta Teja, Boini Sai Kumar, Gummadi Sai Kumar",
   "license": "MIT",
   "devDependencies": {
-    "copy-webpack-plugin": "^5.0.5",
+    "copy-webpack-plugin": "^6.4.1",
     "webpack": "4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"

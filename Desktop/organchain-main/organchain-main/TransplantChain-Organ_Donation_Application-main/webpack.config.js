@@ -26,7 +26,7 @@ module.exports = {
   devServer: { 
     contentBase: [path.join(__dirname, "dist"), path.join(__dirname, "src")], 
     compress: true, 
-    port: 3000,
+    port: 3001,
     proxy: {
       '/api': 'http://localhost:8080',
       '/flask': {

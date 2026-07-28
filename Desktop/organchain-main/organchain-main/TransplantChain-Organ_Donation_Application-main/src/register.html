@@ -169,7 +169,16 @@
                             </div>
                             <div>
                                 <label class="block text-[10px] font-extrabold text-slate-700 uppercase tracking-widest mb-1.5">Create Password</label>
-                                <input id="pwdInput" type="password" placeholder="••••••••••" class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 placeholder:text-slate-400 hover:bg-white hover:border-slate-300 tracking-widest">
+                                <div class="relative">
+                                    <input
+                                        id="pwdInput" type="password" placeholder="••••••••••"
+                                        class="w-full bg-slate-50 border border-slate-200 px-4 py-3 pr-12 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 placeholder:text-slate-400 hover:bg-white hover:border-slate-300 tracking-widest">
+                                    <button
+                                        type="button" onclick="togglePassword('pwdInput', this)"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700">
+                                        👁
+                                    </button>
+                                </div>                                
                                 <!-- Strength Bar -->
                                 <div class="mt-2 flex items-center gap-2">
                                     <div class="flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden"><div id="pwdBar" class="h-full rounded-full transition-all duration-300 w-0"></div></div>
@@ -178,7 +187,16 @@
                             </div>
                             <div>
                                 <label class="block text-[10px] font-extrabold text-slate-700 uppercase tracking-widest mb-1.5">Confirm Password</label>
-                                <input id="pwdConfirm" type="password" placeholder="••••••••••" class="w-full bg-slate-50 border border-slate-200 px-4 py-3 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 placeholder:text-slate-400 hover:bg-white hover:border-slate-300 tracking-widest">
+                                <div class="relative">
+                                    <input
+                                        id="pwdConfirm" type="password" placeholder="••••••••••"
+                                        class="w-full bg-slate-50 border border-slate-200 px-4 py-3 pr-12 rounded-xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-900 placeholder:text-slate-400 hover:bg-white hover:border-slate-300 tracking-widest">
+                                    <button
+                                        type="button" onclick="togglePassword('pwdConfirm', this)"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700">
+                                        👁
+                                    </button>
+                                </div>                            
                             </div>
                         </div>
                     </div>
@@ -384,6 +402,18 @@
             else if (len < 10) { bar.style.width = '66%'; label.textContent = 'Good'; bar.className = 'h-full rounded-full transition-all duration-300 bg-amber-500'; label.className = 'text-[10px] font-bold text-amber-500 uppercase tracking-widest w-12 text-right'; }
             else { bar.style.width = '100%'; label.textContent = 'Strong'; bar.className = 'h-full rounded-full transition-all duration-300 bg-emerald-500'; label.className = 'text-[10px] font-bold text-emerald-600 uppercase tracking-widest w-12 text-right'; }
         });
+
+        function togglePassword(fieldId, button) {
+            const input = document.getElementById(fieldId);
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                button.textContent = '👁';
+            }
+        }
     </script>
 </body>
 </html>
