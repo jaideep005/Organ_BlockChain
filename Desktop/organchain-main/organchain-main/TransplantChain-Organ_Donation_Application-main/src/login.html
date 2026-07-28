@@ -241,14 +241,22 @@
                     return;
                 }
                 
-                const registeredEmail = localStorage.getItem('registeredEmail');
-                const registeredPassword = localStorage.getItem('registeredPassword');
-                
-                if (registeredEmail && registeredPassword) {
-                    if (identifier !== registeredEmail || password !== registeredPassword) {
-                        showToast('Invalid Credentials. Please try again.', 'error');
-                        return;
-                    }
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: identifier,
+                        password
+                    })
+                });
+                const data = await response.json();
+
+
+                if (!response.ok) {
+                    showToast('Invalid credentials', 'error');
+                    return;
                 }
 
                 const btn = form.querySelector('button[type="submit"]');

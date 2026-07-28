@@ -239,37 +239,14 @@
                 }
                 
                 // Hackathon Link intercept
-                const registeredEmail = localStorage.getItem('registeredEmail');
-                const registeredPassword = localStorage.getItem('registeredPassword');
-                
-                // If the user registered recently via the UI demo, strictly check against those credentials
-                if (registeredEmail && registeredPassword) {
-                    if (identifier !== registeredEmail || password !== registeredPassword) {
+                if (activeRole === 'patient') {
+                    identifier = document.getElementById('patientIdentifier').value.trim();
+                    password = document.getElementById('patientPassword').value.trim();
+
+                    if (!identifier || !password) {
                         showToast('Invalid Credentials. Please try again.', 'error');
                         return;
                     }
-                    
-                    // Match found! Fast track to dashboard
-                    sessionStorage.setItem('userRole', 'patient');
-                    sessionStorage.setItem('abhaId', localStorage.getItem('patientABHA') || identifier);
-                    sessionStorage.setItem('userName', localStorage.getItem('patientName') || identifier);
-                    
-                    const btn = form.querySelector('button[type="submit"]');
-                    if (btn) {
-                        const btnText = btn.querySelector('.btn-text');
-                        const btnIcon = btn.querySelector('.btn-icon');
-                        const btnSpinner = btn.querySelector('.btn-spinner');
-                        
-                        if (btnText) btnText.textContent = 'Requesting Auth...';
-                        if (btnIcon) btnIcon.classList.add('hidden');
-                        if (btnSpinner) btnSpinner.classList.remove('hidden');
-                        btn.disabled = true;
-                        btn.classList.add('opacity-80', 'cursor-wait');
-                    }
-                    
-                    showToast('Authentication Successful! Redirecting...', 'success');
-                    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
-                    return;
                 }
 
             } else {
