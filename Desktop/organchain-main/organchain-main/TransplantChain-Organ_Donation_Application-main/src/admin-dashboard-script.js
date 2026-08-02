@@ -67,7 +67,7 @@ function renderPatients(list) {
     const tbody = document.getElementById('patientTableBody');
     document.getElementById('tableCount').textContent = '(' + list.length + ')';
     if (list.length === 0) { tbody.innerHTML = '<tr><td colspan="7" class="py-8 text-center text-slate-400 font-bold">No results found.</td></tr>'; return; }
-    tbody.innerHTML = list.map(p => {
+    tbody.innerHTML = (list ?? []).map(p => {
         const roleColor = p.role === 'DONOR' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-blue-50 text-blue-700 border-blue-200';
         const hla = p.hlaMarkers ? p.hlaMarkers.split(',').slice(0, 3).join(', ') : '—';
         const hospName = p.hospitalName || p.hospitalId || '—';
