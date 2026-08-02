@@ -236,7 +236,7 @@ function openMatchModal() {
 function closeMatchModal() { document.getElementById('matchModal').classList.add('hidden'); }
 
 function runMatching() {
-    const donorId = parseInt(document.getElementById('donorSelect').value);
+    const donorId = parseInt(document.getElementById('donorSelect', 10).value);
     if (!donorId) { document.getElementById('matchResults').classList.add('hidden'); document.getElementById('matchPlaceholder').classList.remove('hidden'); return; }
     const donor = allPledges.find(p => p.id === donorId);
     if (!donor) return;
