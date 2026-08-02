@@ -243,7 +243,7 @@ function runMatching() {
     const hospFilter = document.getElementById('matchHospitalFilter').value;
     let recipients = allPledges.filter(p => p.role === 'RECIPIENT');
     if (hospFilter) recipients = recipients.filter(r => r.hospitalId === hospFilter);
-    const ranked = recipients.map(r => {
+    const ranked = (recipients ?? []).map(r => {
         const sc = computeMatchScore(donor, r);
         const dHla = (donor.hlaMarkers||'').split(','), rHla = (r.hlaMarkers||'').split(',');
         return {...r, score: sc, hlaShared: dHla.filter(a => rHla.includes(a)).length, _donorId: donorId};
