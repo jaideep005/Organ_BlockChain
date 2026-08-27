@@ -463,16 +463,50 @@
             let identifier, password;
             if (activeRole === 'patient') {
                 identifier = document.getElementById('patientIdentifier').value.trim();
-                password   = document.getElementById('patientPassword').value.trim();
-                if (!identifier || !password) { showToast('Please fill in all fields.', 'error'); return; }
+                password = document.getElementById('patientPassword').value.trim();
+                
+                if (!identifier || !password) {
+                    showToast('Invalid Credentials. Please try again.', 'error');
+                    return;
+                }
+                
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: identifier,
+                        password
+                    })
+                });
+                const data = await response.json();
 
-                /* Demo: check against localStorage registered user */
-                const regEmail = localStorage.getItem('registeredEmail');
-                const regPwd   = localStorage.getItem('registeredPassword');
-                if (regEmail && regPwd) {
-                    if (identifier !== regEmail || password !== regPwd) {
-                        showToast('Invalid credentials. Please try again.', 'error'); return;
-                    }
+
+                if (!response.ok) {
+                    showToast('Invalid credentials', 'error');
+                    return;
+                }
+
+                const btn = form.querySelector('button[type="submit"]');
+                const btnText = btn?.querySelector('.btn-text');
+                const btnIcon = btn?.querySelector('.btn-icon');
+                const btnSpinner = btn?.querySelector('.btn-spinner');
+                const originalText = btnText ? btnText.textContent : 'Authenticate';
+
+                if (btn) {
+                    if (btnText) btnText.textContent = 'Requesting Auth...';
+                    if (btnIcon) btnIcon.classList.add('hidden');
+                    if (btnSpinner) btnSpinner.classList.remove('hidden');
+                    btn.disabled = true;
+                    btn.classList.add('opacity-80', 'cursor-wait');
+                }
+
+                try {
+                    const otp = await showOtpModal();
+                    if (!otp) throw new Error('OTP Canceled');
+                    if (otp !== '123456') throw new Error('Invalid OTP — use demo code: 123456');
+
                     sessionStorage.setItem('userRole', 'patient');
                     sessionStorage.setItem('abhaId',   localStorage.getItem('patientABHA') || identifier);
                     sessionStorage.setItem('userName', localStorage.getItem('patientName') || identifier);
